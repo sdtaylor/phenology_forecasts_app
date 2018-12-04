@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-import main.urls
+from . import views
 
+app_name = 'main'
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include(main.urls))
+    path('', views.Index, name='index'),
+    path('<forecast_season>/<issue_date>/<species>/<phenophase>', views.Index, name='index'),
+    path('image_metadata/', views.ImageMetadata, name='imagemetadata'),
+    path('image_metadata/<forecast_season>/<issue_date>/<species>/<phenophase>', views.ImageMetadata, name='imagemetadata')
 ]

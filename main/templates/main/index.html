@@ -77,18 +77,39 @@
                      <tr>
                         <td>Issue Date
                             <select id="issue_date_select" class="selectpicker" onchange="draw_map()">
-							</select>
+                            {% for issue_date in available_issue_dates %}
+                                {% if issue_date.default == 1 %}
+                                    <option value={{issue_date.issue_date}} selected="selected">{{issue_date.display_text}}</option>
+                                {% else %}
+                                    <option value={{issue_date.issue_date}}>{{issue_date.display_text}}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
                         </td>
                     </tr>
                      <tr>
                         <td>Species
                             <select id="species_select" class="selectpicker" data-live-search="true" onchange="draw_map()">
+                            {% for species in available_species %}
+                                {% if species.default == 1 %}
+                                    <option value={{species.species}} selected="selected">{{species.display_text}}</option>
+                                {% else %}
+                                    <option value={{species.species}}>{{species.display_text}}</option>
+                                {% endif %}
+                            {% endfor %}
                             </select>
                         </td>
                     </tr>
                      <tr>
                         <td>Phenophase
                             <select id="phenophase_select" class="selectpicker" onchange="draw_map()">
+                                {% for phenophase in available_phenophase %}
+                                {% if phenophase.default == 1 %}
+                                    <option value={{phenophase.phenophase}} selected="selected">{{phenophase.display_text}}</option>
+                                {% else %}
+                                    <option value={{phenophase.phenophase}}>{{phenophase.display_text}}</option>
+                                {% endif %}
+                            {% endfor %}
                              </select>
                         </td>
                     </tr>
