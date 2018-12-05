@@ -21,5 +21,6 @@ import main.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('main.api.urls')),
-    path('', include(main.urls))
+    path('accounts/api/', include('accounts.api.urls')),
+    path('', include(main.urls)),
 ]

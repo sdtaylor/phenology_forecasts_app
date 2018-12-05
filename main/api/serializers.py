@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, StringRelatedField
 
 from main.models import Speciess, Forecasts, IssueDates
 
@@ -12,6 +12,9 @@ class SpeciessSerializer(ModelSerializer):
                 ]
         
 class ForecastsSerializer(ModelSerializer):
+    issue_date = StringRelatedField(many=False)
+    species = StringRelatedField(many=False)
+    phenophase = StringRelatedField(many=False)
     class Meta:
         model = Forecasts
         fields = [
