@@ -7,11 +7,14 @@ class IssueDates(models.Model):
     display_text = models.CharField(max_length=20)
     default = models.IntegerField(default=0)
     
+    class Meta:
+        unique_together = ('forecast_season','issue_date')
+
     def __str__(self):
         return self.issue_date
 
 class Speciess(models.Model):
-    species = models.CharField(max_length=50)
+    species = models.CharField(max_length=50, unique=True)
     display_text = models.CharField(max_length = 100)
     default = models.IntegerField(default=0)
     
@@ -19,7 +22,7 @@ class Speciess(models.Model):
         return self.species
 
 class Phenophases(models.Model):
-    phenophase = models.IntegerField()
+    phenophase = models.IntegerField(unique=True)
     display_text = models.CharField(max_length = 20)
     default = models.IntegerField(default=0)
     
@@ -32,6 +35,9 @@ class Forecasts(models.Model):
     species    = models.ForeignKey(Speciess, on_delete=models.CASCADE)
     phenophase = models.ForeignKey(Phenophases, on_delete=models.CASCADE)
     image_filename=models.CharField(max_length=100)
+    
+    class Meta:
+        unique_together = ('issue_date','species','phenophase')
     
     def __str__(self):
         return '-'.join([str(self.issue_date), str(self.species), str(self.phenophase)])
