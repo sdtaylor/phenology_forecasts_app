@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from . import models
 
-current_forecast_season = 2018
+current_forecast_season = 2019
 
 # The json metadata file for the default index.html
 def default_image_metatadata():
@@ -86,7 +86,6 @@ def Index(request, forecast_season=None, issue_date=None,
         # no forecast specified in url
         image_metadata = default_image_metatadata()
 
-    print(image_metadata)
     image_metadata['selected_image_status']=selected_image_status
     return render(request, 'main/index.html', image_metadata)
 

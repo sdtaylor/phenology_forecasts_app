@@ -45,7 +45,7 @@ function init_page() {
     log_text("initializing")
     $.getJSON('static/main/image_metadata.json',
           function(json) {
-              load_menus(json);
+             // load_menus(json);
               draw_map();} );
 
     console.log(window.location.href)
@@ -137,6 +137,9 @@ function draw_map() {
         var image_filename_uncertainty = species+'_'+phenophase+'_'+issue_date+'_uncertainty.png';
         var image_url_uncertainty = 'static/main/images/'+issue_date+'/'+image_filename_uncertainty;
         
+        var image_filename_anomaly = species+'_'+phenophase+'_'+issue_date+'_anomaly.png';
+        var image_url_anomaly = 'static/main/images/'+issue_date+'/'+image_filename_anomaly;
+        
         if (image_metadata.available_images.indexOf(image_filename_prediction) == -1){
             update_forecast_info("Forecast not available");
             log_text("image not available: "+image_filename);
@@ -146,17 +149,18 @@ function draw_map() {
         }
         //set image
         $('#static_map_prediction').attr('src',image_url_prediction);
+        $('#static_map_anomaly').attr('src',image_url_anomaly);
         $('#static_map_uncertainty').attr('src',image_url_uncertainty);
     }
 }
 
 function load_menus(image_metadata){
     log_text("populating issue dates")
-    //populate_drop_down('issue_date_select', image_metadata.available_issue_dates);   
+    populate_drop_down('issue_date_select', image_metadata.available_issue_dates);   
     log_text("populating species")
-    //populate_drop_down('species_select', image_metadata.available_species);   
+    populate_drop_down('species_select', image_metadata.available_species);   
     log_text("populating phenophase")
-    //populate_drop_down('phenophase_select', image_metadata.available_phenophase);   
+    populate_drop_down('phenophase_select', image_metadata.available_phenophase);   
 }
 
 function populate_drop_down(dropdown_name, items) {
