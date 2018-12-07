@@ -1,7 +1,8 @@
 from rest_framework.generics import (
         ListAPIView, 
         CreateAPIView,
-        RetrieveUpdateAPIView
+        RetrieveUpdateAPIView,
+        RetrieveAPIView
         )
 
 # Default is set to IsAuthenticated
@@ -11,7 +12,16 @@ from rest_framework.permissions import (
 
 from rest_framework.exceptions import NotFound
 
-from .serializers import SpeciessSerializer, PhenophaseSerializer, ForecastsSerializer, IssueDatesSerializer
+from .serializers import (
+        SpeciessSerializer, 
+        PhenophaseSerializer, 
+        ForecastsListSerializer, 
+        ForecastsCreateSerializer, 
+        IssueDatesSerializer
+        )
+
+from django.shortcuts import get_object_or_404
+
 from main.models import Speciess, Phenophases, Forecasts, IssueDates
 
 class SpeciessListAPIView(ListAPIView):
@@ -49,12 +59,18 @@ class IssueDatesUpdateAPIView(RetrieveUpdateAPIView):
 
 class ForecastsListAPIView(ListAPIView):
     queryset = Forecasts.objects.all()
-    serializer_class = ForecastsSerializer
+    serializer_class = ForecastsListSerializer
     permission_classes = [AllowAny]
+
+class ForecastsDetailAPIView(RetrieveAPIView):
+    queryset = Forecasts.objects.all()
+    serializer_class = ForecastsListSerializer
+    permission_classes = [AllowAny]
+    lookup_field = 'prediction_image'
 
 class ForecastsCreateAPIView(CreateAPIView):
     queryset = Forecasts.objects.all()
-    serializer_class = ForecastsSerializer
+    serializer_class = ForecastsCreateSerializer
 
 def InvalidAPICallView(request):
     raise NotFound()

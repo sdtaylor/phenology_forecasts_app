@@ -49,14 +49,16 @@ def selected_image_metadata(forecast_season, issue_date,
                 species__species=species, 
                 phenophase__phenophase=phenophase, 
                 issue_date__issue_date=issue_date, 
-                issue_date__forecast_season=forecast_season).__dict__
+                issue_date__forecast_season=forecast_season)
     
+    print('query select species')
+    print(select_image_info)
     m = default_image_metatadata()
     m['available_issue_dates'] = assign_default(m['available_issue_dates'], 
                                                 field='issue_date',
                                                 field_default = select_image_info.issue_date.issue_date)
     m['available_species'] = assign_default(m['available_species'], 
-                                                field='speices',
+                                                field='species',
                                                 field_default = select_image_info.species.species)
     m['available_issue_phenophase'] = assign_default(m['available_phenophase'], 
                                                 field='phenophase',
@@ -74,20 +76,25 @@ def Index(request, forecast_season=None, issue_date=None,
                                                         issue_date=issue_date,
                                                         species=species,
                                                         phenophase=phenophase)
+            selected_image_status='success'
         except:
             # nothing seems to be missing in url, but forecast couldn't be found
             selected_image_status='unavailable'
             image_metadata = default_image_metatadata()
-    elif any([e is None for e in url_entries]):
+    elif all([e is None for e in url_entries]):
+        # no forecast specified in url
+        selected_image_status='unspecified'
+        image_metadata = default_image_metatadata()
+    else:
         # Something maybe missing from url
         selected_image_status='unknown'
         image_metadata = default_image_metatadata()
-    else:
-        # no forecast specified in url
-        image_metadata = default_image_metatadata()
 
+    print(selected_image_status)
     image_metadata['selected_image_status']=selected_image_status
     return render(request, 'main/index.html', image_metadata)
 
-def ImageMetadata(request,  forecast_season, issue_date, species, phenophase):
+def ImageMetadata(request,  forecast_season=None, issue_date=None, 
+                  species=None, phenophase=None):
+    
     pass

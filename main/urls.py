@@ -21,7 +21,7 @@ from . import views
 app_name = 'main'
 urlpatterns = [
     path('', views.Index, name='index'),
-    path('<forecast_season>/<issue_date>/<species>/<phenophase>', views.Index, name='index'),
+    path('<forecast_season>/<issue_date>/<species>/<phenophase>/', views.Index, name='index'),
     path('image_metadata/', views.ImageMetadata, name='imagemetadata'),
     path('image_metadata/<forecast_season>/<issue_date>/<species>/<phenophase>', views.ImageMetadata, name='imagemetadata')
 ]
