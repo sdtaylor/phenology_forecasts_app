@@ -43,5 +43,7 @@ class ForecastsSerializer(ModelSerializer):
                 'issue_date',
                 'species',
                 'phenophase',
-                'image_filename',
+                'prediction_image',
+                'uncertainty_image',
+                'anomaly_image',
                 ]

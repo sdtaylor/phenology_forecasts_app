@@ -34,8 +34,10 @@ class Forecasts(models.Model):
     issue_date = models.ForeignKey(IssueDates, on_delete=models.CASCADE)
     species    = models.ForeignKey(Speciess, on_delete=models.CASCADE)
     phenophase = models.ForeignKey(Phenophases, on_delete=models.CASCADE)
-    image_filename=models.CharField(max_length=100)
-    
+    prediction_image=models.CharField(max_length=100)
+    uncertainty_image=models.CharField(max_length=100)
+    anomaly_image=models.CharField(max_length=100)
+
     class Meta:
         unique_together = ('issue_date','species','phenophase')
     
