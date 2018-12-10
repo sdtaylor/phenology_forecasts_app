@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class IssueDates(models.Model):
     forecast_season = models.IntegerField()
-    issue_date = models.CharField(max_length=12)
+    issue_date = models.DateField()
     display_text = models.CharField(max_length=20)
     default = models.IntegerField(default=0)
     
@@ -11,7 +11,7 @@ class IssueDates(models.Model):
         unique_together = ('forecast_season','issue_date')
 
     def __str__(self):
-        return self.issue_date
+        return str(self.issue_date)
 
 class Speciess(models.Model):
     species = models.CharField(max_length=50, unique=True)

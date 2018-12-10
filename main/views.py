@@ -22,10 +22,19 @@ def default_image_metatadata():
             issue_date__forecast_season=current_forecast_season)
     
     image_metadata = {}
-    image_metadata['available_issue_dates']=[d for d in available_issue_dates.values()]
     image_metadata['available_species']=[s for s in available_species.values()]
     image_metadata['available_phenophase']=[p for p in available_phenophases.values()]
     image_metadata['available_images']=[i for i in available_images.values()]
+    image_metadata['available_issue_dates']=[d for d in available_issue_dates.values()]
+    # make the issue date objects strings (ie. '2018-12-03') and set the default
+    # to the most recent
+    latest_issue_date=models.IssueDates.objects.latest('issue_date').issue_date
+    for d in image_metadata['available_issue_dates']:
+        if d['issue_date'] == latest_issue_date:
+            d['default'] = 1
+        else:
+            d['default'] = 0
+        d['issue_date'] = str(d['issue_date'])
     
     return image_metadata
 
