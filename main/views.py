@@ -109,7 +109,5 @@ def Index(request, issue_date=None,
     image_metadata['selected_image_status']=selected_image_status
     return render(request, 'main/index.html', image_metadata)
 
-def ImageMetadata(request,  forecast_season=None, issue_date=None, 
-                  species=None, phenophase=None):
-    
-    pass
+def About(request):
+    return render(request, 'main/about.html')

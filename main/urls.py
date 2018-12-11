@@ -25,6 +25,7 @@ phenophase_regex = r'(?P<phenophase>\d{3}|\w{2,10})'
 app_name = 'main'
 urlpatterns = [
     path('', views.Index, name='index'),
+    path('about', views.About, name='about'),
     re_path(r'^'+issue_date_regex+r'/'+species_regex+r'/'+phenophase_regex+r'/$', views.Index, name='index'),
     #path('image_metadata/', views.ImageMetadata, name='imagemetadata'),
     #path('image_metadata/<forecast_season>/<issue_date>/<species>/<phenophase>', views.ImageMetadata, name='imagemetadata')
