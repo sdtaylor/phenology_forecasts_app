@@ -20,7 +20,7 @@ from . import views
 
 issue_date_regex = r'(?P<issue_date>\d{4}-\d{2}-\d{2}|latest)'
 species_regex = r'(?P<species>\w+_\w+)'
-phenophase_regex = r'(?P<phenophase>\d{3})'
+phenophase_regex = r'(?P<phenophase>\d{3}|\w{2,10})'
 
 app_name = 'main'
 urlpatterns = [

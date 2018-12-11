@@ -57,6 +57,11 @@ def selected_image_metadata(issue_date,
     if issue_date=='latest':
         issue_date = str(models.IssueDates.objects.latest('issue_date').issue_date)
 
+    # phenophase can be the number or text (ie. 371 or leaves)
+    # if it's the text convert it to the number.
+    #if type(phenophase) == str:
+    #    phenophase = models.Phenophases.objects.get(display_text=phenophase).phenophase
+        
     select_image_info = models.Forecasts.objects.get(
                 species__species=species, 
                 phenophase__phenophase=phenophase, 
