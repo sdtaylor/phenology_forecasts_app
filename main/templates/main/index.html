@@ -2,55 +2,12 @@
 
 <!DOCTYPE html>
   <html>
-    <head>
-	  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-      <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <title>Phenology Forecasts</title>
-       <!-- leaflet -->
-       <!--
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" type="text/css" crossorigin="">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" crossorigin=""></script>
-      -->
-      <!-- jquery -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <!-- bootstrap -->
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-      <style>
-        body {
-            padding-top: 0px;
-            padding-bottom: 40px;
-        }
-      </style>
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113168744-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-113168744-1');
-	</script>
-
-
-	  </head>
+  {% include "main/header.html" %}
 
   <body onload="init_page()">
 	  
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="./index.html">Phenology Forecasts - Beta</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="./index.html">Home</a></li>
-          <li><a href="about.html">About</a></li>
-        </ul>
-      </div>
-    </nav>
+    {% include "main/navbar.html" %}
     
     
     <div class="container-fluid">
@@ -171,17 +128,8 @@
             </div>
         </div>
     </div>
-	<footer>
-	   <!-- bootstrap select for the sweet searchable dropdown-->
-	   <!--
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js">
-      $('.selectpicker').selectpicker('render');
-      -->
-       <!-- custom stuff -->
-      <script type="text/javascript" src="{% static "main/phenology.custom.js" %}"></script>
-      <link rel="stylesheet" href="{% static "main/style.css" %}" type="text/css">
-	</footer>
+
+    {% include "main/footer.html" %}
   </body>
 
 </html>
