@@ -18,7 +18,7 @@ from django.urls import include, path, re_path
 
 from . import views
 
-issue_date_regex = r'(?P<issue_date>\d{4}-\d{2}-\d{2})'
+issue_date_regex = r'(?P<issue_date>\d{4}-\d{2}-\d{2}|latest)'
 species_regex = r'(?P<species>\w+_\w+)'
 phenophase_regex = r'(?P<phenophase>\d{3})'
 

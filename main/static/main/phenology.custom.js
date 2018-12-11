@@ -3,7 +3,7 @@
 //var map;
 //var map_image_layer;
 //var map_image_bounds = [[24.0625,-125.0208],[49.9375,-66.479]];
-var debug=true
+var debug=false
 
           
 // diplay='block' mean display normally, display='none' means hide it
@@ -76,6 +76,19 @@ function update_forecast_info(message) {
     document.getElementById("forecast_info").innerHTML = '<h4><b>' + message + '</b></h4>';
 }
 
+//This updates the text info below all the menus
+function update_forecast_permalinks(clear=false, issue_date, species, phenophase) {
+ //   first_line = '<a href="/2018-12-03/acer_rubrum/371">Link to this forecast</a>'
+ //   second_line = '<a href="/latest/acer_rubrum/371">Latest forecast for this species</a>'
+    if (clear) {
+        document.getElementById("forecast_permalinks").innerHTML = '';
+    } else {
+        first_line = '<a href="/'+issue_date+'/'+species+'/'+phenophase+'">Direct link to this forecast</a>';
+        second_line = '<a href="/latest/'+species+'/'+phenophase+'">Latest forecast for this species</a>';
+        document.getElementById("forecast_permalinks").innerHTML = '<br>' + first_line + '<br>' + second_line;
+    }
+}
+
 function clear_map() {
     map.eachLayer(function (layer) {
         map.removeLayer(layer);
@@ -139,9 +152,11 @@ function draw_map() {
         $.getJSON('/api/forecasts/detail/' + image_filename_prediction, 
         function(json) {
             update_forecast_info("");
+            update_forecast_permalinks(clear=false, issue_date, species, phenophase);
             log_text('setting image: ' + image_url);
         }).fail(function(failure) {
             update_forecast_info("Forecast not available");
+            update_forecast_permalinks(clear=true);
             log_text("image not available: "+image_filename);
         })
         
@@ -152,6 +167,9 @@ function draw_map() {
 //            update_forecast_info("");
 //            log_text('setting image: ' + image_url);
 //        }
+        
+        
+        
         //set image
         $('#static_map_prediction').attr('src',image_url_prediction);
         $('#static_map_anomaly').attr('src',image_url_anomaly);

@@ -38,9 +38,9 @@ def default_image_metatadata():
     
     return image_metadata
 
-def assign_default(entries, field, field_default):
+def assign_selected(entries, field, selected_entry):
     for e in entries:
-        if e[field]==field_default:
+        if e[field]==selected_entry:
             e['default']=1
         else:
             e['default']=0
@@ -54,6 +54,9 @@ def selected_image_metadata(issue_date,
     
     return dictionary
     """
+    if issue_date=='latest':
+        issue_date = str(models.IssueDates.objects.latest('issue_date').issue_date)
+
     select_image_info = models.Forecasts.objects.get(
                 species__species=species, 
                 phenophase__phenophase=phenophase, 
@@ -62,15 +65,15 @@ def selected_image_metadata(issue_date,
     print('query select species')
     print(select_image_info)
     m = default_image_metatadata()
-    m['available_issue_dates'] = assign_default(m['available_issue_dates'], 
+    m['available_issue_dates'] = assign_selected(m['available_issue_dates'], 
                                                 field='issue_date',
-                                                field_default = select_image_info.issue_date.issue_date)
-    m['available_species'] = assign_default(m['available_species'], 
+                                                selected_entry = select_image_info.issue_date.issue_date)
+    m['available_species'] = assign_selected(m['available_species'], 
                                                 field='species',
-                                                field_default = select_image_info.species.species)
-    m['available_phenophase'] = assign_default(m['available_phenophase'], 
+                                                selected_entry = select_image_info.species.species)
+    m['available_phenophase'] = assign_selected(m['available_phenophase'], 
                                                 field='phenophase',
-                                                field_default = select_image_info.phenophase.phenophase)
+                                                selected_entry = select_image_info.phenophase.phenophase)
     return m
         
 def Index(request, issue_date=None, 
