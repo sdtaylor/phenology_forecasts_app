@@ -14,14 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 from . import views
+
+issue_date_regex = r'(?P<issue_date>\d{4}-\d{2}-\d{2})'
+species_regex = r'(?P<species>\w+_\w+)'
+phenophase_regex = r'(?P<phenophase>\d{3})'
 
 app_name = 'main'
 urlpatterns = [
     path('', views.Index, name='index'),
-    path('<forecast_season>/<issue_date>/<species>/<phenophase>/', views.Index, name='index'),
-    path('image_metadata/', views.ImageMetadata, name='imagemetadata'),
-    path('image_metadata/<forecast_season>/<issue_date>/<species>/<phenophase>', views.ImageMetadata, name='imagemetadata')
+    re_path(r'^'+issue_date_regex+r'/'+species_regex+r'/'+phenophase_regex+r'/$', views.Index, name='index'),
+    #path('image_metadata/', views.ImageMetadata, name='imagemetadata'),
+    #path('image_metadata/<forecast_season>/<issue_date>/<species>/<phenophase>', views.ImageMetadata, name='imagemetadata')
 ]

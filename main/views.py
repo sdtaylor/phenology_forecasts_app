@@ -18,13 +18,13 @@ def default_image_metatadata():
     
     available_phenophases = models.Phenophases.objects.all()
     
-    available_images = models.Forecasts.objects.filter(
-            issue_date__forecast_season=current_forecast_season)
+    #available_images = models.Forecasts.objects.filter(
+    #        issue_date__forecast_season=current_forecast_season)
     
     image_metadata = {}
     image_metadata['available_species']=[s for s in available_species.values()]
     image_metadata['available_phenophase']=[p for p in available_phenophases.values()]
-    image_metadata['available_images']=[i for i in available_images.values()]
+    #image_metadata['available_images']=[i for i in available_images.values()]
     image_metadata['available_issue_dates']=[d for d in available_issue_dates.values()]
     # make the issue date objects strings (ie. '2018-12-03') and set the default
     # to the most recent
@@ -46,7 +46,7 @@ def assign_default(entries, field, field_default):
             e['default']=0
     return entries
 
-def selected_image_metadata(forecast_season, issue_date, 
+def selected_image_metadata(issue_date, 
                             species, phenophase, as_json=True):
     """
     Make default image the one specified by a url instead of the one
@@ -57,8 +57,7 @@ def selected_image_metadata(forecast_season, issue_date,
     select_image_info = models.Forecasts.objects.get(
                 species__species=species, 
                 phenophase__phenophase=phenophase, 
-                issue_date__issue_date=issue_date, 
-                issue_date__forecast_season=forecast_season)
+                issue_date__issue_date=issue_date)
     
     print('query select species')
     print(select_image_info)
@@ -69,22 +68,21 @@ def selected_image_metadata(forecast_season, issue_date,
     m['available_species'] = assign_default(m['available_species'], 
                                                 field='species',
                                                 field_default = select_image_info.species.species)
-    m['available_issue_phenophase'] = assign_default(m['available_phenophase'], 
+    m['available_phenophase'] = assign_default(m['available_phenophase'], 
                                                 field='phenophase',
                                                 field_default = select_image_info.phenophase.phenophase)
     return m
         
-def Index(request, forecast_season=None, issue_date=None, 
+def Index(request, issue_date=None, 
           species=None, phenophase=None):
     selected_image_status=''
-    url_entries = [forecast_season, issue_date, species, phenophase]
+    url_entries = [issue_date, species, phenophase]
     # If a proprer URL
     if not None in url_entries:
         try:
-            image_metadata = selected_image_metadata(forecast_season=forecast_season,
-                                                        issue_date=issue_date,
-                                                        species=species,
-                                                        phenophase=phenophase)
+            image_metadata = selected_image_metadata(issue_date=issue_date,
+                                                     species=species,
+                                                     phenophase=phenophase)
             selected_image_status='success'
         except:
             # nothing seems to be missing in url, but forecast couldn't be found
