@@ -72,7 +72,7 @@ def selected_image_metadata(issue_date,
     m = default_image_metatadata()
     m['available_issue_dates'] = assign_selected(m['available_issue_dates'], 
                                                 field='issue_date',
-                                                selected_entry = select_image_info.issue_date.issue_date)
+                                                selected_entry = str(select_image_info.issue_date.issue_date))
     m['available_species'] = assign_selected(m['available_species'], 
                                                 field='species',
                                                 selected_entry = select_image_info.species.species)
