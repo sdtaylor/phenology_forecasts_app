@@ -31,9 +31,9 @@ class Phenophases(models.Model):
 
 
 class Forecasts(models.Model):
-    issue_date = models.ForeignKey(IssueDates, on_delete=models.CASCADE)
-    species    = models.ForeignKey(Speciess, on_delete=models.CASCADE)
-    phenophase = models.ForeignKey(Phenophases, on_delete=models.CASCADE)
+    issue_date = models.DateField()
+    species    = models.CharField(max_length=50)
+    phenophase = models.IntegerField()
     prediction_image=models.CharField(max_length=100)
     uncertainty_image=models.CharField(max_length=100)
     anomaly_image=models.CharField(max_length=100)
