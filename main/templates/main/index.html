@@ -27,8 +27,10 @@
                 <div>
                   <table>
                      <tr>
-                        <td>Issue Date
-                            <select id="issue_date_select" class="selectpicker" onchange="init_page()">
+                        <td>
+                            <div class="form-group">
+                            <label for="issue_date_select">Issue Date</label>
+                            <select id="issue_date_select" class="form-control" onchange="init_page()">
                             {% for issue_date in available_issue_dates %}
                                 {% if issue_date.default == 1 %}
                                     <option value={{issue_date.issue_date}} selected="selected">{{issue_date.display_text}}</option>
@@ -37,11 +39,14 @@
                                 {% endif %}
                             {% endfor %}
                             </select>
+                            
                         </td>
                     </tr>
                      <tr>
-                        <td>Species
-                            <select id="species_select" class="selectpicker" data-live-search="true" onchange="init_page()">
+                        <td>
+                            
+                            <label for="species_select">Species</label>
+                            <select id="species_select" class="form-control" onchange="init_page()">
                             {% for species in available_species %}
                                 {% if species.default == 1 %}
                                     <option value={{species.species}} selected="selected">{{species.display_text}}</option>
@@ -50,15 +55,20 @@
                                 {% endif %}
                             {% endfor %}
                             </select>
+                            
                         </td>
                     </tr>
                      <tr>
-                        <td>Phenophase<br>
-                         <div class="btn-group" role="group" aria-label="...">
+                        <td>
+                        <br>
+                         <label for="phenophase_select">Phenophase</label>
+                         <br>
+                         <div class="btn-group" role="group" id="phenophase_select" aria-label="...">
                           <button type="button" onclick="update_phenophase(371)" id="leaf-button" class="btn btn-default">Leaves</button>
                           <button type="button" onclick="update_phenophase(501)" id="flower-button" class="btn btn-default">Flowers</button>
                           <button type="button" onclick="update_phenophase(498)" id="fall-button" class="btn btn-default">Fall Colors</button>
                           <button type="button" onclick="update_phenophase(390)" id="fruit-button" class="btn btn-default" disabled>Ripe Fruit</button>
+                        </div>
                         </div>
                         </td>
                     </tr>
