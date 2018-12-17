@@ -21,6 +21,8 @@ from .serializers import (
 
 from django.shortcuts import get_object_or_404
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from main.models import Speciess, Phenophases, Forecasts, IssueDates
 
 class SpeciessListAPIView(ListAPIView):
@@ -61,11 +63,16 @@ class ForecastsListAPIView(ListAPIView):
     serializer_class = ForecastsSerializer
     permission_classes = [AllowAny]
 
-class ForecastsDetailAPIView(RetrieveAPIView):
+class SpeciesForecastsDetailAPIView(ListAPIView):
+    """
+    Note this takes a get query. ie:
+        '/api/forecasts/detail/?issue_date=2018-12-14&species=acer_rubrum
+    """
     queryset = Forecasts.objects.all()
     serializer_class = ForecastsSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'prediction_image'
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('issue_date', 'species')
 
 class ForecastsCreateAPIView(CreateAPIView):
     queryset = Forecasts.objects.all()

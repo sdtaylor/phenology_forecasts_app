@@ -16,14 +16,14 @@ def default_image_metatadata():
     
     available_species = models.Speciess.objects.all()
     
-    available_phenophases = models.Phenophases.objects.all()
+    #available_phenophases = models.Phenophases.objects.all()
     
     #available_images = models.Forecasts.objects.filter(
     #        issue_date__forecast_season=current_forecast_season)
     
     image_metadata = {}
     image_metadata['available_species']=[s for s in available_species.values()]
-    image_metadata['available_phenophase']=[p for p in available_phenophases.values()]
+    #image_metadata['available_phenophase']=[p for p in available_phenophases.values()]
     #image_metadata['available_images']=[i for i in available_images.values()]
     image_metadata['available_issue_dates']=[d for d in available_issue_dates.values()]
     # make the issue date objects strings (ie. '2018-12-03') and set the default
@@ -46,8 +46,7 @@ def assign_selected(entries, field, selected_entry):
             e['default']=0
     return entries
 
-def selected_image_metadata(issue_date, 
-                            species, phenophase, as_json=True):
+def selected_image_metadata(issue_date, species):
     """
     Make default image the one specified by a url instead of the one
     specified by the database.
@@ -56,16 +55,13 @@ def selected_image_metadata(issue_date,
     """
     if issue_date=='latest':
         issue_date = str(models.IssueDates.objects.latest('issue_date').issue_date)
-
-    # phenophase can be the number or text (ie. 371 or leaves)
-    # if it's the text convert it to the number.
-    #if type(phenophase) == str:
-    #    phenophase = models.Phenophases.objects.get(display_text=phenophase).phenophase
-        
-    select_image_info = models.Forecasts.objects.get(
+    
+    # This returns multiple objects due to several phenophases. It doesn't 
+    # matter which one cause phenophases are dealt with in the html/javascript
+    # All info otherwise is the same. 
+    select_image_info = models.Forecasts.objects.filter(
                 species=species, 
-                phenophase=phenophase, 
-                issue_date=issue_date)
+                issue_date=issue_date).first()
     
     print('query select species')
     print(select_image_info)
@@ -76,21 +72,16 @@ def selected_image_metadata(issue_date,
     m['available_species'] = assign_selected(m['available_species'], 
                                                 field='species',
                                                 selected_entry = select_image_info.species)
-    m['available_phenophase'] = assign_selected(m['available_phenophase'], 
-                                                field='phenophase',
-                                                selected_entry = select_image_info.phenophase)
     return m
         
-def Index(request, issue_date=None, 
-          species=None, phenophase=None):
+def Index(request, issue_date=None, species=None):
     selected_image_status=''
-    url_entries = [issue_date, species, phenophase]
+    url_entries = [issue_date, species]
     # If a proprer URL
     if not None in url_entries:
         try:
             image_metadata = selected_image_metadata(issue_date=issue_date,
-                                                     species=species,
-                                                     phenophase=phenophase)
+                                                     species=species)
             selected_image_status='success'
         except:
             # nothing seems to be missing in url, but forecast couldn't be found
@@ -111,10 +102,3 @@ def Index(request, issue_date=None,
 
 def About(request):
     return render(request, 'main/about.html')
-
-def SpeciesForecastInfo(request, species, issue_date=None):
-    """
-    Get details about the forecasts for a species, optionally
-    on a specific issue date.
-    """
-    pass
