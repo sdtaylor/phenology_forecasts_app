@@ -1,15 +1,8 @@
-
-//leaflet map stuff
-//var map;
-//var map_image_layer;
-//var map_image_bounds = [[24.0625,-125.0208],[49.9375,-66.479]];
 var debug=false;
 
 var current_species = "acer_rubrum";
 var current_phenophase = 371;
 var current_issue_date = "2018-12-14";
-
-
 
 function update_current_info(selected_data){
     if("phenophase" in select_data){
@@ -25,14 +18,12 @@ function update_current_info(selected_data){
     draw_map()
 }
 
-          
+
 function init_page() {
     log_text("initializing")
     draw_map();
 
     console.log(window.location.href)
-
-
 }
 
 // get current status of a specified dropdown
@@ -82,58 +73,32 @@ function draw_map() {
     log_text("selected phenophase: "+phenophase);
 
 
-    //var current_type = current_map_type()
-    if (current_map_type() == map_type) {
-        log_text("map types equal");
-    } else {
-        log_text("map types dont equal");
-        toggle_maps();
-    }
-    var prior_image_layer;
-    var current_image_layer;
-    if (map_type=='interactive') {
-        clear_map();
-        var image_filename = species+'_'+phenophase+'_'+issue_date+'_map.png';
-        var image_url = 'images/'+issue_date+'/'+image_filename;
-        
-        if (image_metadata.available_images.indexOf(image_filename) == -1){
-            update_forecast_info("Forecast not available");
-            log_text("map not available: "+image_filename);
-        } else {
-            update_forecast_info("");
-            log_text('setting image: ' + image_filename);
-        }
-        
-        map_image_layer = L.imageOverlay(image_url, map_image_bounds, {opacity: 0.7});
-        map_image_layer.addTo(map);
-    } else {
-        //construct image url
-        var forecast_availability;
-        
-        var image_filename_prediction = species+'_'+phenophase+'_'+issue_date+'_prediction.png';
-        var image_url_prediction = '/static/main/images/'+issue_date+'/'+image_filename_prediction;
-        
-        var image_filename_uncertainty = species+'_'+phenophase+'_'+issue_date+'_uncertainty.png';
-        var image_url_uncertainty = '/static/main/images/'+issue_date+'/'+image_filename_uncertainty;
-        
-        var image_filename_anomaly = species+'_'+phenophase+'_'+issue_date+'_anomaly.png';
-        var image_url_anomaly = '/static/main/images/'+issue_date+'/'+image_filename_anomaly;
-        
-        //check availability using primary image name as a lookup. image names are unique to all forecats. 
-        $.getJSON('/api/forecasts/detail/' + image_filename_prediction, 
-        function(json) {
-            update_forecast_info("");
-            update_forecast_permalinks(clear=false, issue_date, species, phenophase);
-            log_text('setting image: ' + image_url);
-        }).fail(function(failure) {
-            update_forecast_info("Forecast not available");
-            update_forecast_permalinks(clear=true);
-            log_text("image not available: "+image_filename);
-        })
-        
-        //set image
-        $('#static_map_prediction').attr('src',image_url_prediction);
-        $('#static_map_anomaly').attr('src',image_url_anomaly);
-        $('#static_map_uncertainty').attr('src',image_url_uncertainty);
-    }
+    //construct image url
+    var forecast_availability;
+    
+    var image_filename_prediction = species+'_'+phenophase+'_'+issue_date+'_prediction.png';
+    var image_url_prediction = '/static/main/images/'+issue_date+'/'+image_filename_prediction;
+    
+    var image_filename_uncertainty = species+'_'+phenophase+'_'+issue_date+'_uncertainty.png';
+    var image_url_uncertainty = '/static/main/images/'+issue_date+'/'+image_filename_uncertainty;
+    
+    var image_filename_anomaly = species+'_'+phenophase+'_'+issue_date+'_anomaly.png';
+    var image_url_anomaly = '/static/main/images/'+issue_date+'/'+image_filename_anomaly;
+    
+    //check availability using primary image name as a lookup. image names are unique to all forecats. 
+    $.getJSON('/api/forecasts/detail/' + image_filename_prediction, 
+    function(json) {
+        update_forecast_info("");
+        update_forecast_permalinks(clear=false, issue_date, species, phenophase);
+        log_text('setting image: ' + image_url);
+    }).fail(function(failure) {
+        update_forecast_info("Forecast not available");
+        update_forecast_permalinks(clear=true);
+        log_text("image not available: "+image_filename);
+    })
+    
+    //set image
+    $('#static_map_prediction').attr('src',image_url_prediction);
+    $('#static_map_anomaly').attr('src',image_url_anomaly);
+    $('#static_map_uncertainty').attr('src',image_url_uncertainty);
 }
