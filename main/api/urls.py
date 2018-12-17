@@ -4,12 +4,12 @@ from .views import (
         SpeciessListAPIView, 
         SpeciessCreateAPIView,
         SpeciessUpdateAPIView,
+        SpeciesForecastsDetailAPIView,
         PhenophasesListAPIView,
         IssueDatesListAPIView,
         IssueDatesCreateAPIView,
         IssueDatesUpdateAPIView,
         ForecastsListAPIView,
-        ForecastsDetailAPIView,
         ForecastsCreateAPIView,
         InvalidAPICallView
         )
@@ -20,8 +20,7 @@ phenophase_regex = r'(?P<phenophase>\w+)'
 
 urlpatterns  = [
         url('forecasts/list', ForecastsListAPIView.as_view(), name='forecasts-list'),
-        #url(r'forecasts/detail/'+issue_date_regex+'/'+species_regex+'/'+phenophase_regex+'/$', ForecastsDetailAPIView.as_view(), name='forecasts-list'),
-        url(r'forecasts/detail/(?P<prediction_image>\S*_prediction[.]png)$', ForecastsDetailAPIView.as_view(), name='forecasts-list'),
+        url('forecasts/detail/', SpeciesForecastsDetailAPIView.as_view(), name='forecasts-list'),
         url('forecasts/create', ForecastsCreateAPIView.as_view(), name='forecasts-create'),
         url('issuedates/list', IssueDatesListAPIView.as_view(), name='issuedates-list'),
         url(r'^issuedates/update/'+issue_date_regex+r'/$', IssueDatesUpdateAPIView.as_view(), name='issuedates-update'),

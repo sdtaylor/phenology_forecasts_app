@@ -26,17 +26,11 @@
             <div class="col-md-4">      
                 <div>
                   <table>
-                     <tr style="display:none">
-                        <td>Map Type
-                            <select id="map_type_select" onchange="draw_map()">
-                            <option value='interactive'>Interactive</option>
-                            <option value='static' selected>Static</option>
-                            </select>
-                        </td>
-                    </tr>
                      <tr>
-                        <td>Issue Date
-                            <select id="issue_date_select" class="selectpicker" onchange="draw_map()">
+                        <td>
+                            <div class="form-group">
+                            <label for="issue_date_select">Issue Date</label>
+                            <select id="issue_date_select" class="form-control" onchange="init_page()">
                             {% for issue_date in available_issue_dates %}
                                 {% if issue_date.default == 1 %}
                                     <option value={{issue_date.issue_date}} selected="selected">{{issue_date.display_text}}</option>
@@ -45,11 +39,14 @@
                                 {% endif %}
                             {% endfor %}
                             </select>
+                            
                         </td>
                     </tr>
                      <tr>
-                        <td>Species
-                            <select id="species_select" class="selectpicker" data-live-search="true" onchange="draw_map()">
+                        <td>
+                            
+                            <label for="species_select">Species</label>
+                            <select id="species_select" class="form-control" onchange="init_page()">
                             {% for species in available_species %}
                                 {% if species.default == 1 %}
                                     <option value={{species.species}} selected="selected">{{species.display_text}}</option>
@@ -58,19 +55,21 @@
                                 {% endif %}
                             {% endfor %}
                             </select>
+                            
                         </td>
                     </tr>
                      <tr>
-                        <td>Phenophase
-                            <select id="phenophase_select" class="selectpicker" onchange="draw_map()">
-                                {% for phenophase in available_phenophase %}
-                                {% if phenophase.default == 1 %}
-                                    <option value={{phenophase.phenophase}} selected="selected">{{phenophase.display_text}}</option>
-                                {% else %}
-                                    <option value={{phenophase.phenophase}}>{{phenophase.display_text}}</option>
-                                {% endif %}
-                            {% endfor %}
-                             </select>
+                        <td>
+                        <br>
+                         <label for="phenophase_select">Phenophase</label>
+                         <br>
+                         <div class="btn-group" role="group" id="phenophase_select" aria-label="...">
+                          <button type="button" onclick="update_phenophase(371)" id="leaf-button" class="btn btn-default">Leaves</button>
+                          <button type="button" onclick="update_phenophase(501)" id="flower-button" class="btn btn-default">Flowers</button>
+                          <button type="button" onclick="update_phenophase(498)" id="fall-button" class="btn btn-default">Fall Colors</button>
+                          <button type="button" onclick="update_phenophase(390)" id="fruit-button" class="btn btn-default" disabled>Ripe Fruit</button>
+                        </div>
+                        </div>
                         </td>
                     </tr>
                     <tr>
