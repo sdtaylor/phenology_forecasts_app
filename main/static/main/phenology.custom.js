@@ -3,58 +3,35 @@
 //var map;
 //var map_image_layer;
 //var map_image_bounds = [[24.0625,-125.0208],[49.9375,-66.479]];
-var debug=false
+var debug=false;
 
-          
-// diplay='block' mean display normally, display='none' means hide it
-function toggle_maps() {
-    var L_map = document.getElementById("leaflet_map");
-    var S_map = document.getElementById("static_map");
-  
-    if (L_map.style.display === "none") {
-        L_map.style.display = "block";
-    } else {
-        L_map.style.display = "none";
+var current_species = "acer_rubrum";
+var current_phenophase = 371;
+var current_issue_date = "2018-12-14";
+
+
+
+function update_current_info(selected_data){
+    if("phenophase" in select_data){
+       current_phenophase = select_data["phenophase"];
+    }
+    if("issue_date" in select_data){
+       current_issue_date = select_data["issue_date"];
+    }
+    if("phenophase" in select_data){
+       current_species = select_data["species"];
     }
     
-    if (S_map.style.display === "none") {
-        S_map.style.display = "block";
-    } else {
-        S_map.style.display = "none";
-    }
-    
-    document.getElementById("test_output").innerHTML += '<br>type changed';
-} 
-
-function current_map_type() {
-    var L_map = document.getElementById("leaflet_map");
-    if (L_map.style.display === "none"){
-        var map_type='static';
-    } else {
-        var map_type='interactive';
-    }
-    return map_type;
+    draw_map()
 }
 
-var osm;
+          
 function init_page() {
     log_text("initializing")
     draw_map();
 
     console.log(window.location.href)
-    //leaflet map stuff
-    // create map and set center and zoom level
-    //map = new L.map('leaflet_map');
-    //map.setView([39,-95],4);
 
-    //var selection;
-    //var selectedLayer;
-    //var selectedFeature;
-    //// create and add osm tile layer
-    //osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //  maxZoom: 19,
-    //  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    //});
 
 }
 
@@ -89,12 +66,6 @@ function update_forecast_permalinks(clear=false, issue_date, species, phenophase
     }
 }
 
-function clear_map() {
-    map.eachLayer(function (layer) {
-        map.removeLayer(layer);
-    });
-    osm.addTo(map)
-}
 
 function draw_map() {
     //get info to display
@@ -160,46 +131,9 @@ function draw_map() {
             log_text("image not available: "+image_filename);
         })
         
-//        if (image_metadata.available_images.indexOf(image_filename_prediction) == -1){
-//           update_forecast_info("Forecast not available");
-//            log_text("image not available: "+image_filename);
-//        } else {
-//            update_forecast_info("");
-//            log_text('setting image: ' + image_url);
-//        }
-        
-        
-        
         //set image
         $('#static_map_prediction').attr('src',image_url_prediction);
         $('#static_map_anomaly').attr('src',image_url_anomaly);
         $('#static_map_uncertainty').attr('src',image_url_uncertainty);
     }
 }
-
-//function load_menus(image_metadata){
-//    log_text("populating issue dates")
-//    populate_drop_down('issue_date_select', image_metadata.available_issue_dates);   
-//    log_text("populating species")
-//    populate_drop_down('species_select', image_metadata.available_species);   
-//    log_text("populating phenophase")
-//    populate_drop_down('phenophase_select', image_metadata.available_phenophase);   
-//}
-
-function populate_drop_down(dropdown_name, items) {
-    var dropdown_menu = document.getElementById(dropdown_name);
-    
-    for (var i=0; i<items.length; i++) {
-        var item_i = items[i];
-
-        var dropdown_item = document.createElement("option");
-        dropdown_item.textContent = item_i.display_text;
-        dropdown_item.value = item_i.value;
-        
-        dropdown_menu.appendChild(dropdown_item);
-        if (item_i.default==1) {
-            dropdown_menu.selectedIndex=i;
-        }
-    }
-}
-
