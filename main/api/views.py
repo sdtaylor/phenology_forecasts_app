@@ -15,8 +15,7 @@ from rest_framework.exceptions import NotFound
 from .serializers import (
         SpeciessSerializer, 
         PhenophaseSerializer, 
-        ForecastsListSerializer, 
-        ForecastsCreateSerializer, 
+        ForecastsSerializer, 
         IssueDatesSerializer
         )
 
@@ -59,18 +58,18 @@ class IssueDatesUpdateAPIView(RetrieveUpdateAPIView):
 
 class ForecastsListAPIView(ListAPIView):
     queryset = Forecasts.objects.all()
-    serializer_class = ForecastsListSerializer
+    serializer_class = ForecastsSerializer
     permission_classes = [AllowAny]
 
 class ForecastsDetailAPIView(RetrieveAPIView):
     queryset = Forecasts.objects.all()
-    serializer_class = ForecastsListSerializer
+    serializer_class = ForecastsSerializer
     permission_classes = [AllowAny]
     lookup_field = 'prediction_image'
 
 class ForecastsCreateAPIView(CreateAPIView):
     queryset = Forecasts.objects.all()
-    serializer_class = ForecastsCreateSerializer
+    serializer_class = ForecastsSerializer
 
 def InvalidAPICallView(request):
     raise NotFound()

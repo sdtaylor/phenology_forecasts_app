@@ -63,22 +63,22 @@ def selected_image_metadata(issue_date,
     #    phenophase = models.Phenophases.objects.get(display_text=phenophase).phenophase
         
     select_image_info = models.Forecasts.objects.get(
-                species__species=species, 
-                phenophase__phenophase=phenophase, 
-                issue_date__issue_date=issue_date)
+                species=species, 
+                phenophase=phenophase, 
+                issue_date=issue_date)
     
     print('query select species')
     print(select_image_info)
     m = default_image_metatadata()
     m['available_issue_dates'] = assign_selected(m['available_issue_dates'], 
                                                 field='issue_date',
-                                                selected_entry = str(select_image_info.issue_date.issue_date))
+                                                selected_entry = str(select_image_info.issue_date))
     m['available_species'] = assign_selected(m['available_species'], 
                                                 field='species',
-                                                selected_entry = select_image_info.species.species)
+                                                selected_entry = select_image_info.species)
     m['available_phenophase'] = assign_selected(m['available_phenophase'], 
                                                 field='phenophase',
-                                                selected_entry = select_image_info.phenophase.phenophase)
+                                                selected_entry = select_image_info.phenophase)
     return m
         
 def Index(request, issue_date=None, 
@@ -111,3 +111,10 @@ def Index(request, issue_date=None,
 
 def About(request):
     return render(request, 'main/about.html')
+
+def SpeciesForecastInfo(request, species, issue_date=None):
+    """
+    Get details about the forecasts for a species, optionally
+    on a specific issue date.
+    """
+    pass
