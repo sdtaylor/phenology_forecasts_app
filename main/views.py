@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from . import models
 
-current_forecast_season = 2019
+current_forecast_season = 2020
 
 # The json metadata file for the default index.html
 def default_image_metatadata():
